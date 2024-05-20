@@ -27,12 +27,12 @@ class MainGUI:
         body_frame = tk.Frame(self.root)
         body_frame.grid(row=1, column=0, padx=10, pady=5)
 
-        self.label_log_file = tk.Label(body_frame, text='Path Log File:', font='Arial 10 bold')
+        self.label_log_file = tk.Label(body_frame, text='Path Log File (.log):', font='Arial 10 bold')
         self.label_log_file.grid(row=0, column=0, padx=5, pady=5)
         self.textbox_log_file = tk.Text(body_frame, height=1, width=50, font=('Arial', 10))
         self.textbox_log_file.grid(row=0, column=1, padx=5, pady=5)
 
-        self.label_expected_file = tk.Label(body_frame, text='Path Expected File:', font='Arial 10 bold')
+        self.label_expected_file = tk.Label(body_frame, text='Path Expected File (.txt):', font='Arial 10 bold')
         self.label_expected_file.grid(row=1, column=0, padx=5, pady=5)
         self.textbox_expected_file = tk.Text(body_frame, height=1, width=50, font=('Arial', 10))
         self.textbox_expected_file.grid(row=1, column=1, padx=5, pady=5)
@@ -55,7 +55,7 @@ class MainGUI:
         if not self.path_log_file or not self.path_expected_file:
             messagebox.showinfo(title='Error_Message', message='Please enter path file!')
             return
-        main_tmp.process(self.path_log_file, self.path_expected_file)
+        main.process(self.path_log_file, self.path_expected_file)
 
     def clear(self):
         self.textbox_log_file.delete("1.0", tk.END)
