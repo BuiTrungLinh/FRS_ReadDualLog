@@ -39,4 +39,5 @@ def report_dualtest(dataDicts, totalPassed, totalMisread, outputPath, interface)
 
     with open(pathOutput, mode='w') as f:
         f.write(reportText)
-    print("Report_File: {}".format(pathOutput))
+    # print("Report_File: {}".format(pathOutput))
+    return pathOutput
