@@ -14,6 +14,8 @@ class MainGUI:
         self.root = tk.Tk()
         self.root.title('Check_Misread_DualTest')
         self.root.config(bg="skyblue")
+        self.root.eval('tk::PlaceWindow . center')
+        self.root.resizable(False, False)
         # self.root.geometry("900x800")
 
         # Create Frame header
@@ -29,15 +31,15 @@ class MainGUI:
 
         self.label_log_file = tk.Label(body_frame, text='Path Log File (.log):', font='Arial 10 bold')
         self.label_log_file.grid(row=0, column=0, padx=5, pady=5)
-        self.textbox_log_file = tk.Text(body_frame, height=1, width=50, font=('Arial', 10))
+        self.textbox_log_file = tk.Text(body_frame, height=2, width=50, font=('Arial', 10))
         self.textbox_log_file.grid(row=0, column=1, padx=5, pady=5)
 
         self.label_expected_file = tk.Label(body_frame, text='Path Expected File (.txt):', font='Arial 10 bold')
         self.label_expected_file.grid(row=1, column=0, padx=5, pady=5)
-        self.textbox_expected_file = tk.Text(body_frame, height=1, width=50, font=('Arial', 10))
+        self.textbox_expected_file = tk.Text(body_frame, height=2, width=50, font=('Arial', 10))
         self.textbox_expected_file.grid(row=1, column=1, padx=5, pady=5)
 
-        footer_frame = tk.Frame(self.root, width=300, height=200)
+        footer_frame = tk.Frame(self.root)
         footer_frame.grid(row=3, column=0, padx=10, pady=5)
         self.button_execute = tk.Button(footer_frame, text='Execute!', font=('Arial', 18), command=self.execute)
         self.button_execute.grid(row=0, column=0, padx=10, pady=10)
