@@ -40,7 +40,7 @@
 
     <div class="m-2"></div>
 
-    <table class="table table-striped table-bordered">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>No.</th>
@@ -48,7 +48,7 @@
                 <th>Symbology Type</th>
                 <th>Data</th>
                 <th>Total number of decoding</th>
-                <th>Is Misread</th>
+                <th>Is Misread?</th>
             </tr>
         </thead>
         <tbody>
@@ -56,14 +56,20 @@
             {% if item.isMisread %}
             <tr class="table-danger">
             {% else %}
-            <tr>
+            <tr class="table-success">
             {% endif %}
                 <td>{{item.no}}</td>
                 <td>{{item.symID}}</td>
                 <td>{{item.symType}}</td>
                 <td>{{item.fullData}}</td>
                 <td>{{item.count}}</td>
-                <td>{{item.isMisread}}</td>
+                <td>
+                    {% if item.isMisread %}
+                    Yes
+                    {% else %}
+                    No
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

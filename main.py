@@ -10,7 +10,6 @@ import os
 path_log_file = './files/OPOS_LOG_FILE_0.log'
 path_expected_file = './files/ExpectedData.txt'
 outputPath = ''
-listExpectedData = []
 
 if __name__ == '__main__':
     gui.start_up()
@@ -30,7 +29,7 @@ def process(pathlogfile, pathexpfile):
 
 
 def verify(lines):
-    interface = 'RS232-STD'
+    interface = 'RS232-STD/USBCOM'
     countLine = 0
     countData = 0
     countData_Passed = 0
@@ -53,7 +52,7 @@ def verify(lines):
 
     # Process for expected file
     # Read file
-    fileExpected = open(path_expected_file, 'r')
+    fileExpected = open(path_expected_file)
     listExpectedData = []
     for x in fileExpected.readlines():
         listExpectedData.append(x.strip())
@@ -89,11 +88,11 @@ def verify(lines):
                             and dictData['fullData'] == datas['fullData']):
                         # update count
                         datas['count'] = datas['count'] + 1
-                        if is_misread(datas['fullData']):
+                        if is_misread(datas['fullData'], listExpectedData):
                             datas['isMisread'] = True
                         break
                     if datasList[-1]['fullData'] == datas['fullData']:
-                        if is_misread(dictData['fullData']):
+                        if is_misread(dictData['fullData'], listExpectedData):
                             dictData.update({'isMisread': True})
                         datasList.append(dictData)
                         countData += 1
@@ -134,6 +133,6 @@ def add_child_data(refresh, dict_data, line):
     return dict_data
 
 
-def is_misread(data):
+def is_misread(data, listExpectedData):
     if data not in listExpectedData:
         return True
