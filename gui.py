@@ -1,5 +1,6 @@
 import tkinter as tk
 import webbrowser
+from tkinter.filedialog import askopenfilename
 
 import main
 from tkinter import messagebox
@@ -34,6 +35,9 @@ class MainGUI:
         self.textbox_log_file = tk.Text(body_frame, height=2, width=50, font=('Arial', 10))
         self.textbox_log_file.grid(row=0, column=1, padx=5, pady=5)
 
+        # open_button = tk.Button(body_frame, text='Open a File', command=self.select_file)
+        # open_button.grid(row=0, column=2, padx=5, pady=5)
+
         self.label_expected_file = tk.Label(body_frame, text='Path Expected File (.txt):', font='Arial 10 bold')
         self.label_expected_file.grid(row=1, column=0, padx=5, pady=5)
         self.textbox_expected_file = tk.Text(body_frame, height=2, width=50, font=('Arial', 10))
@@ -52,8 +56,8 @@ class MainGUI:
         self.root.mainloop()
 
     def execute(self):
-        self.path_log_file = self.textbox_log_file.get("1.0", tk.END).strip().replace('"','')
-        self.path_expected_file = self.textbox_expected_file.get("1.0", tk.END).strip('"').replace('"','')
+        self.path_log_file = self.textbox_log_file.get("1.0", tk.END).strip().replace('"', '')
+        self.path_expected_file = self.textbox_expected_file.get("1.0", tk.END).strip('"').replace('"', '')
         if not self.path_log_file or not self.path_expected_file:
             messagebox.showinfo(title='Error_Message', message='Please enter path file!')
             return
@@ -67,6 +71,20 @@ class MainGUI:
         if messagebox.askyesno(title="Quit?", message="Do you really want to quit?"):
             self.root.destroy()
 
+    # def select_file(self):
+    #     filetypes = (
+    #         ('text files', '*.txt'),
+    #         ('All files', '*.*')
+    #     )
+    #
+    #     filenames = askopenfilename(
+    #         title='Open a file',
+    #         initialdir='/',
+    #         filetypes=filetypes)
+    #
+    #     messagebox.showinfo(title='Selected Files',
+    #                         message=filenames)
+
 
 def start_up():
     MainGUI()
@@ -78,4 +96,3 @@ def callback(url):
 
 def show_msg(title, content):
     messagebox.showinfo(title=title, message=content)
-
