@@ -6,7 +6,6 @@ from pathlib import Path
 from os.path import dirname, abspath
 import os
 
-
 path_log_file = './files/OPOS_LOG_FILE_0.log'
 path_expected_file = './files/ExpectedData.txt'
 outputPath = ''
@@ -35,7 +34,7 @@ def verify(lines):
     countData_Passed = 0
     countData_Misread = 0
     refresh = 0
-    datasList = []
+    dataList = []
     dictData = {
         'no': 0,
         'symID': '',
@@ -80,10 +79,10 @@ def verify(lines):
         if refresh == 3:
             refresh = 0
             # print('-------------------------')
-            if len(datasList) == 0:
-                datasList.append(dictData)
+            if len(dataList) == 0:
+                dataList.append(dictData)
             else:
-                for datas in datasList:
+                for datas in dataList:
                     if (dictData['symID'] == datas['symID'] and dictData['symType'] == datas['symType']
                             and dictData['fullData'] == datas['fullData']):
                         # update count
@@ -91,10 +90,10 @@ def verify(lines):
                         if is_misread(datas['fullData'], listExpectedData):
                             datas['isMisread'] = True
                         break
-                    if datasList[-1]['fullData'] == datas['fullData']:
+                    if dataList[-1]['fullData'] == datas['fullData']:
                         if is_misread(dictData['fullData'], listExpectedData):
                             dictData.update({'isMisread': True})
-                        datasList.append(dictData)
+                        dataList.append(dictData)
                         countData += 1
                         break
                     #   Check misread
@@ -108,14 +107,28 @@ def verify(lines):
             }
 
     # count total label missread
-    for i in range(len(datasList)):
-        datasList[i]['no'] = i + 1
-        if datasList[i]['isMisread']:
+    for i in range(len(dataList)):
+        if dataList[i]['isMisread']:
             countData_Misread += 1
         else:
+            # move all data passed to top list
+            dataList.insert(0, dataList.pop(i))
             countData_Passed += 1
 
-    report_file_path = report_dualtest(datasList, countData_Passed, countData_Misread, outputPath, interface)
+    # check expected no read
+    list_exp_not_found = [i for i in listExpectedData if i not in [j['fullData'] for j in dataList]]
+    for tmp_item in list_exp_not_found:
+        dictData = {
+            'no': 0,
+            'symID': 'Unknown',
+            'symType': 'Unknown',
+            'fullData': tmp_item,
+            'count': 0,
+            'isMisread': False
+        }
+        dataList.insert(0, dictData)
+
+    report_file_path = report_dualtest(dataList, countData_Passed, countData_Misread, len(list_exp_not_found), outputPath, interface)
     link = dirname(abspath(report_file_path)) + '/' + report_file_path.split(r'/')[-1]
     webbrowser.open(link)
 

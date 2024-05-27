@@ -37,6 +37,9 @@
     <br>
     <h3 class="d-inline">Total number of misread data:</h3>
     <h3 class="d-inline text-danger"> {{totalDataMisread}}</h3>
+    <br>
+    <h3 class="d-inline">Total number of data not read:</h3>
+    <h3 class="d-inline text-warning"> {{totalDataNoread}} </h3>
 
     <div class="m-2"></div>
 
@@ -52,13 +55,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in dataTblRows %}
+            {% for idx, item in dataTblRows %}
             {% if item.isMisread %}
-            <tr class="table-danger">
+                <tr class="table-danger">
+            {% elif not item.isMisread and item.count == 0 %}
+                <tr class="table-warning">
             {% else %}
-            <tr class="table-success">
+                <tr class="table-success">
             {% endif %}
-                <td>{{item.no}}</td>
+                <td>{{idx+1}}</td>
                 <td>{{item.symID}}</td>
                 <td>{{item.symType}}</td>
                 <td>{{item.fullData}}</td>
@@ -66,6 +71,8 @@
                 <td>
                     {% if item.isMisread %}
                     Yes
+                    {% elif not item.isMisread and item.count == 0 %}
+                    Warning!!!
                     {% else %}
                     No
                     {% endif %}
