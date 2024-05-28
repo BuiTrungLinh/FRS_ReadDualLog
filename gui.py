@@ -17,17 +17,16 @@ class MainGUI:
         self.root = tk.Tk()
         self.root.iconbitmap('images/icon.ico')
         self.root.title('Check_Misread_DualTest')
-        # self.root.config(bg="#F8D68C")
+        self.root.config(bg="#F8D68C")
         self.root.eval('tk::PlaceWindow . center')
         self.root.resizable(False, False)
         # self.root.geometry("900x800")
 
         # Create Frame header
-        header_frame = tk.Frame(self.root)
+        header_frame = tk.LabelFrame(self.root)
         header_frame.grid(row=0, column=0, padx=10, pady=5)
         # Frame header - Title
         label_title = tk.Label(header_frame, text='Check Misread DualTest', font=('Arial', 18))
-
         label_title.pack(padx=10, pady=10)
 
         # Frame body
