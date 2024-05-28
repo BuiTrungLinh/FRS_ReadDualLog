@@ -13,6 +13,7 @@ class MainGUI:
 
         # Start layout
         self.root = tk.Tk()
+        self.root.iconbitmap('images/icon.ico')
         self.root.title('Check_Misread_DualTest')
         self.root.config(bg="skyblue")
         self.root.eval('tk::PlaceWindow . center')
