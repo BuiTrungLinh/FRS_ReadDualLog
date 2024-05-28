@@ -1,5 +1,6 @@
 import tkinter as tk
 import webbrowser
+from tkinter import *
 from tkinter.filedialog import askopenfilename
 
 import main
@@ -7,6 +8,7 @@ from tkinter import messagebox
 
 
 class MainGUI:
+
     def __init__(self):
         self.path_expected_file = None
         self.path_log_file = None
@@ -15,7 +17,7 @@ class MainGUI:
         self.root = tk.Tk()
         self.root.iconbitmap('images/icon.ico')
         self.root.title('Check_Misread_DualTest')
-        self.root.config(bg="skyblue")
+        # self.root.config(bg="#F8D68C")
         self.root.eval('tk::PlaceWindow . center')
         self.root.resizable(False, False)
         # self.root.geometry("900x800")
@@ -25,6 +27,7 @@ class MainGUI:
         header_frame.grid(row=0, column=0, padx=10, pady=5)
         # Frame header - Title
         label_title = tk.Label(header_frame, text='Check Misread DualTest', font=('Arial', 18))
+
         label_title.pack(padx=10, pady=10)
 
         # Frame body
