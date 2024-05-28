@@ -6,8 +6,6 @@ from pathlib import Path
 from os.path import dirname, abspath
 import os
 
-path_log_file = './files/OPOS_LOG_FILE_0.log'
-path_expected_file = './files/ExpectedData.txt'
 outputPath = ''
 
 if __name__ == '__main__':
@@ -15,28 +13,24 @@ if __name__ == '__main__':
 
 
 def process(pathlogfile, pathexpfile):
-    fileLog = None
-    path_log_file = pathlogfile
-    path_expected_file = pathexpfile
+
     try:
         fileLog = open(pathlogfile, 'r')
+        fileExpected = open(pathexpfile, 'r')
     except:
         gui.show_msg('Error Message', 'There is a problem with the path, please check it again!')
         return
     Lines = [i.strip() for i in fileLog.readlines()]
-    verify(Lines)
+    verify(Lines, fileExpected)
 
 
-def verify(lines):
-    interface = 'RS232-STD/USBCOM'
+def verify(lines, fileExpected):
     countLine = 0
-    countData = 0
     countData_Passed = 0
     countData_Misread = 0
     refresh = 0
     dataList = []
     dictData = {
-        'no': 0,
         'symID': '',
         'symType': 'Unknown',
         'fullData': '',
@@ -44,14 +38,10 @@ def verify(lines):
         'isMisread': False
     }
     # Check current interface in log file
-    if 'Registry Main Key: SOFTWARE\\OLEforRetail\\ServiceOPOS\\Scanner\\USBScanner' in lines:
-        interface = 'USBOEM'
-    elif 'Registry Main Key: SOFTWARE\\OLEforRetail\\ServiceOPOS\\Scanner\\SC-COM' in lines:
-        interface = 'USBCOM-SC'
+    interface = [s for s in lines if '{Interface:' in s][0].split(':')[-1].strip()[1:-2]
 
     # Process for expected file
     # Read file
-    fileExpected = open(path_expected_file)
     listExpectedData = []
     for x in fileExpected.readlines():
         listExpectedData.append(x.strip())
@@ -82,23 +72,23 @@ def verify(lines):
             if len(dataList) == 0:
                 dataList.append(dictData)
             else:
+                data_is_existed = False
                 for datas in dataList:
                     if (dictData['symID'] == datas['symID'] and dictData['symType'] == datas['symType']
                             and dictData['fullData'] == datas['fullData']):
                         # update count
                         datas['count'] = datas['count'] + 1
+                        # data is existed
+                        data_is_existed = True
                         if is_misread(datas['fullData'], listExpectedData):
                             datas['isMisread'] = True
                         break
-                    if dataList[-1]['fullData'] == datas['fullData']:
-                        if is_misread(dictData['fullData'], listExpectedData):
-                            dictData.update({'isMisread': True})
-                        dataList.append(dictData)
-                        countData += 1
-                        break
-                    #   Check misread
+
+                if not data_is_existed:
+                    if is_misread(dictData['fullData'], listExpectedData):
+                        dictData['isMisread'] = True
+                    dataList.append(dictData)
             dictData = {
-                'no': 0,
                 'symID': '',
                 'symType': 'Unknown',
                 'fullData': '',
@@ -119,7 +109,6 @@ def verify(lines):
     list_exp_not_found = [i for i in listExpectedData if i not in [j['fullData'] for j in dataList]]
     for tmp_item in list_exp_not_found:
         dictData = {
-            'no': 0,
             'symID': 'Unknown',
             'symType': 'Unknown',
             'fullData': tmp_item,

@@ -57,7 +57,7 @@ class MainGUI:
 
     def execute(self):
         self.path_log_file = self.textbox_log_file.get("1.0", tk.END).strip().replace('"', '')
-        self.path_expected_file = self.textbox_expected_file.get("1.0", tk.END).strip('"').replace('"', '')
+        self.path_expected_file = self.textbox_expected_file.get("1.0", tk.END).strip().replace('"', '')
         if not self.path_log_file or not self.path_expected_file:
             messagebox.showinfo(title='Error_Message', message='Please enter path file!')
             return
