@@ -1,0 +1,8 @@
+1. Run with LabelID refix, suffix
+2. Run with AIMID
+3. Check with USBKBD, .txt file
+4. Count total re-connect to host
+5. In the expected file, there is only data without labelID -> updated to version 2
+6. GUI is not perfect -> updated in version 2
+7. Support for JPOS
+8. Shows the current build running
