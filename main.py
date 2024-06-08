@@ -57,7 +57,7 @@ def verify(lines, fileExpected):
             refresh += 1
             add_child_data(refresh, dictData, line.strip())
             # if Outgoing Barcode Symbology = 0, meaning don't know syms
-            if line.strip()[-1] == '0' and refresh == 1:
+            if line.strip().split(':')[-1].strip() == '0' and refresh == 1:
                 refresh += 1
         elif 'PIDXScan_ECI_Converted_ScanDataLabel' in line.strip():
             if refresh < 2:
